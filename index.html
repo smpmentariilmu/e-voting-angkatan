@@ -4,188 +4,619 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>E-Voting Angkatan | SMP IT Mentari Ilmu</title>
+<title>Pemilihan Ketua dan Nama Angkatan 16 | SMPIT Mentari Ilmu Karawang</title>
 <style>
+:root{
+  --cream:#f6f2e9;
+  --paper:#fffdf8;
+  --green:#233f32;
+  --sage:#e1e9dc;
+  --gold:#c4a36b;
+  --ink:#24342c;
+  --muted:#737b72;
+  --line:#dedfd5;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#f1f5f9;font-family:Arial,sans-serif;color:#172b4d}
-header{background:linear-gradient(135deg,#103b79,#1678bd);color:white;padding:30px 18px;text-align:center}
-header h1{margin:8px 0;font-size:28px}
-header p{margin:5px}
-main{max-width:850px;margin:25px auto;padding:0 15px}
-.card{background:white;border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:0 5px 20px #152b4b12}
-h2{color:#103b79;margin-top:0}
-.option{display:block;border:2px solid #e2e8f0;border-radius:12px;padding:15px;margin:10px 0;cursor:pointer}
-.option:has(input:checked){border-color:#1678bd;background:#eff8ff}
-.option input{margin-right:10px}
-button{background:#1266ad;color:white;border:0;border-radius:10px;padding:13px 22px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
-button:hover{background:#0b477f}
-button:disabled{background:#94a3b8;cursor:not-allowed}
-.note{color:#64748b;font-size:13px;line-height:1.6}
-.result{margin:15px 0}
-.bar{height:13px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin-top:7px}
-.fill{height:100%;background:#1685cc;transition:width .3s}
-.row{display:flex;justify-content:space-between;gap:10px;font-size:14px}
-.status{padding:12px;border-radius:10px;background:#e8f6ee;color:#166534;margin-top:12px}
-footer{text-align:center;color:#64748b;font-size:12px;padding:25px}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:16px 6%;
+  border-bottom:1px solid var(--line);
+  background:var(--paper);
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+  font-size:13px;
+  line-height:1.4;
+}
+.brand img{
+  width:155px;
+  max-width:100%;
+  height:auto;
+}
+.badge{
+  border:1px solid var(--green);
+  border-radius:30px;
+  padding:6px 13px;
+  font-size:11px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:65px 20px 70px;
+  text-align:center;
+  background:var(--cream);
+}
+.eyebrow{
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:3px;
+  color:#647969;
+}
+.hero h1{
+  max-width:980px;
+  margin:22px auto;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(34px,5.5vw,72px);
+  line-height:1.12;
+  letter-spacing:-1.5px;
+  color:var(--green);
+}
+.hero h1 em{
+  display:block;
+  font-style:italic;
+  color:#a07843;
+}
+.hero .school{
+  font-weight:bold;
+  font-size:clamp(15px,2vw,20px);
+}
+.tagline{
+  font-family:Georgia,serif;
+  font-style:italic;
+  color:var(--muted);
+  font-size:18px;
+  margin-top:20px;
+}
+.star{
+  position:absolute;
+  font-size:35px;
+  color:var(--gold);
+}
+.star.one{top:35px;left:8%}
+.star.two{right:9%;bottom:40px}
+.container{
+  max-width:1050px;
+  margin:auto;
+  padding:0 20px 50px;
+}
+.welcome{
+  background:var(--green);
+  color:white;
+  border-radius:18px;
+  padding:28px 35px;
+  margin-bottom:30px;
+}
+.welcome h2{
+  margin:0 0 8px;
+  font-family:Georgia,serif;
+  font-size:29px;
+}
+.welcome p{margin:0;color:#e1e9dc}
+.steps{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:30px 0;
+}
+.step{
+  border:1px solid var(--line);
+  background:var(--paper);
+  padding:10px 18px;
+  border-radius:40px;
+  font-size:12px;
+  font-weight:bold;
+}
+.step.active{
+  background:var(--green);
+  color:white;
+  border-color:var(--green);
+}
+.section{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:32px;
+  margin:28px 0;
+  box-shadow:0 8px 30px #24342c08;
+}
+.kicker{
+  color:#a07843;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+.section h2{
+  font-family:Georgia,serif;
+  font-size:clamp(27px,4vw,40px);
+  color:var(--green);
+  margin:10px 0;
+}
+.description{
+  color:var(--muted);
+  margin-bottom:25px;
+}
+.options{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.option{
+  position:relative;
+  display:block;
+  background:#fff;
+  border:1.5px solid var(--line);
+  border-radius:15px;
+  padding:22px;
+  cursor:pointer;
+  transition:.2s;
+}
+.option:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+.option:has(input:checked){
+  border:2px solid var(--green);
+  background:#f0f5ec;
+}
+.option input{
+  accent-color:var(--green);
+  width:17px;
+  height:17px;
+}
+.number{
+  display:block;
+  color:#a07843;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin:12px 0;
+}
+.option strong{
+  display:block;
+  font-family:Georgia,serif;
+  font-size:21px;
+  color:var(--green);
+  line-height:1.35;
+}
+.option small{
+  display:block;
+  font-size:13px;
+  color:#657267;
+  line-height:1.8;
+  margin-top:12px;
+}
+.vote-btn{
+  display:block;
+  width:100%;
+  max-width:390px;
+  margin:28px auto 0;
+  padding:16px 25px;
+  background:var(--green);
+  color:white;
+  border:0;
+  border-radius:40px;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+}
+.vote-btn:hover{background:#355d47}
+.vote-btn:disabled{
+  background:#a5b0a5;
+  cursor:not-allowed;
+}
+.status{
+  text-align:center;
+  margin-top:15px;
+  color:#27764c;
+  font-size:13px;
+  font-weight:bold;
+}
+.results{
+  background:#e9eee5;
+}
+.result{
+  margin:20px 0;
+}
+.result-line{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  font-size:13px;
+}
+.result-line strong{
+  color:var(--green);
+  text-align:right;
+}
+.track{
+  height:12px;
+  background:#d1dbcf;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:9px;
+}
+.fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#345d45,#a4b995);
+  border-radius:20px;
+}
+.note{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:20px;
+}
+footer{
+  background:var(--green);
+  color:#e5e9e1;
+  text-align:center;
+  padding:28px 15px;
+  font-size:12px;
+}
+footer strong{
+  font-family:Georgia,serif;
+  font-size:18px;
+}
+@media(max-width:650px){
+ .topbar{padding:12px 15px}
+ .brand img{width:125px}
+ .badge{font-size:10px}
+ .hero{padding:50px 16px}
+ .hero h1{letter-spacing:-.5px}
+ .container{padding:0 12px 30px}
+ .welcome{padding:23px}
+ .section{padding:20px}
+ .options{grid-template-columns:1fr}
+ .option{padding:18px}
+ .star{font-size:23px}
+}
 </style>
 </head>
 <body>
-<header>
-<div>🎓 SMP IT MENTARI ILMU</div>
-<h1>E-VOTING ANGKATAN</h1>
-<p>Suaramu Menentukan Masa Depan Angkatan</p>
+
+<div class="topbar">
+  <div class="brand">
+    <img src="logo-sekolah.png"
+         alt="Logo SMPIT Mentari Ilmu Karawang">
+  </div>
+  <div class="badge">ANGKATAN XVI • 2026</div>
+</div>
+
+<header class="hero">
+  <span class="star one">✳</span>
+  <span class="star two">✦</span>
+
+  <div class="eyebrow">THE OFFICIAL STUDENT VOTE</div>
+
+  <h1>
+    Pemilihan Ketua Angkatan
+    <em>& Nama Angkatan 16</em>
+  </h1>
+
+  <div class="school">SMPIT Mentari Ilmu Karawang</div>
+
+  <p class="tagline">One Generation. One Voice. One Legacy.</p>
 </header>
 
-<main>
-<section class="card">
-<h2>Selamat Datang!</h2>
-<p>Silakan berpartisipasi dalam pemilihan nama angkatan dan ketua angkatan.</p>
-<p class="note">Setiap browser dapat memberikan satu suara untuk masing-masing kategori dalam demo ini.</p>
+<main class="container">
+
+<section class="welcome">
+  <h2>Hey, Angkatan XVI! ✨</h2>
+  <p>
+    Ini saatnya menentukan identitas dan pemimpin
+    angkatan kita. Kenali setiap pilihan,
+    tentukan yang terbaik, dan jadilah bagian
+    dari cerita Angkatan 16!
+  </p>
 </section>
 
-<section class="card">
-<h2>🏆 Polling Nama Angkatan</h2>
-<p>Pilih satu nama angkatan yang paling sesuai.</p>
-<div id="namaOptions"></div>
-<button id="btnNama" onclick="vote('nama')">Kirim Pilihan Nama Angkatan</button>
-<div id="statusNama"></div>
+<div class="steps">
+  <span class="step active">01 — Nama Angkatan</span>
+  <span class="step">02 — Ketua Angkatan</span>
+  <span class="step">03 — Hasil Voting</span>
+</div>
+
+<section class="section" id="namaSection">
+  <div class="kicker">01 / OUR IDENTITY</div>
+  <h2>Nama Angkatan</h2>
+  <p class="description">
+    Satu nama, sejuta cerita.
+    Baca filosofinya dan pilih identitas
+    terbaik untuk Angkatan XVI.
+  </p>
+
+  <div class="options" id="namaOptions"></div>
+
+  <button class="vote-btn" id="btnNama"
+    onclick="vote('nama')">
+    KIRIM PILIHAN NAMA ANGKATAN ↗
+  </button>
+
+  <div class="status" id="statusNama"></div>
 </section>
 
-<section class="card">
-<h2>👑 Pemilihan Ketua Angkatan</h2>
-<p>Pilih calon ketua angkatan pilihanmu.</p>
-<div id="ketuaOptions"></div>
-<button id="btnKetua" onclick="vote('ketua')">Kirim Pilihan Ketua Angkatan</button>
-<div id="statusKetua"></div>
+<section class="section" id="ketuaSection">
+  <div class="kicker">02 / OUR LEADER</div>
+  <h2>Ketua Angkatan</h2>
+  <p class="description">
+    Empat calon, satu pemimpin.
+    Pilih sosok yang menurutmu mampu
+    membawa Angkatan XVI semakin solid.
+  </p>
+
+  <div class="options" id="ketuaOptions"></div>
+
+  <button class="vote-btn" id="btnKetua"
+    onclick="vote('ketua')">
+    KIRIM PILIHAN KETUA ANGKATAN ↗
+  </button>
+
+  <div class="status" id="statusKetua"></div>
 </section>
 
-<section class="card">
-<h2>📊 Hasil Polling Demo</h2>
-<h3>Nama Angkatan</h3>
-<div id="hasilNama"></div>
-<h3>Ketua Angkatan</h3>
-<div id="hasilKetua"></div>
-<p class="note">Hasil ini hanya berdasarkan suara yang tersimpan di browser ini, bukan hasil seluruh murid.</p>
+<section class="section results">
+  <div class="kicker">03 / THE RESULTS</div>
+  <h2>Hasil Voting</h2>
+  <p class="description">
+    Rekap pilihan yang tersimpan
+    di browser ini.
+  </p>
+
+  <h3>Nama Angkatan</h3>
+  <div id="hasilNama"></div>
+
+  <hr style="border:0;border-top:1px solid #cad5c9;margin:30px 0">
+
+  <h3>Ketua Angkatan</h3>
+  <div id="hasilKetua"></div>
+
+  <p class="note">
+    MODE DEMO: Hasil hanya tersimpan di browser
+    masing-masing, bukan total suara seluruh murid.
+    Belum dapat digunakan untuk pemilihan resmi.
+  </p>
 </section>
+
 </main>
 
-<footer>© 2026 SMP IT Mentari Ilmu | E-Voting Angkatan</footer>
+<footer>
+  <strong>One Generation. One Legacy.</strong>
+  <p>SMPIT Mentari Ilmu Karawang</p>
+  © 2026 — E-Voting Angkatan XVI
+</footer>
 
 <script>
 const data = {
- nama: [
-  "Generasi Cendekia",
-  "Generasi Gemilang",
-  "Generasi Inspirasi",
-  "Generasi Juara"
- ],
- ketua: [
-  "Kandidat Ketua 1",
-  "Kandidat Ketua 2",
-  "Kandidat Ketua 3"
- ]
+  nama: [
+    {
+      nama: "SIXTEERNAL",
+      filosofi: "Sixteernal mengambil dari kata Eternal, artinya kekal. Angkatan 16 adalah angkatan yang solid, tidak akan terpecah belah, dan akan selalu bersama."
+    },
+    {
+      nama: "NEXAVORA XVI",
+      filosofi: "Satu ikatan, sejuta kekuatan. Satu generasi yang disatukan oleh perjuangan, diperkuat oleh perbedaan, dan dikenang melalui karya. Bukan sekadar teman satu angkatan, tetapi keluarga yang meninggalkan jejak."
+    },
+    {
+      nama: "XVIORA UNITY",
+      filosofi: "Melambangkan angkatan ke-16 yang bersatu dalam perbedaan, saling menguatkan, dan tumbuh bersama untuk menciptakan kenangan serta warisan yang bermakna."
+    },
+    {
+      nama: "XVICTORIAN",
+      filosofi: "Xea/Sea dimaknai sebagai perjalanan yang luas, penuh tantangan, dan tidak selalu mulus. Victorian melambangkan keberhasilan dan kemenangan bersama. Angkatan 16 yang tak putus asa menghadapi tantangan, gelombang, dan arus hingga mencapai kemenangan."
+    }
+  ],
+  ketua: [
+    {
+      nama: "MUHAMMAD ALDYTH ALROYGIAN RUSTANDI"
+    },
+    {
+      nama: "ALFARIZI ARSYAD SAPUTRA"
+    },
+    {
+      nama: "REYFANI BERLIAN"
+    },
+    {
+      nama: "JANEETA NAZHMI GHAISANI"
+    }
+  ]
 };
 
-function key(type){
- return "demo_evoting_" + type;
+const VERSION = "mentari_xvi_classic_v1";
+
+function storageKey(type, suffix) {
+  return VERSION + "_" + type + "_" + suffix;
 }
 
-function getVotes(type){
- try{
-  const saved=JSON.parse(localStorage.getItem(key(type)+"_hasil"));
-  if(Array.isArray(saved) && saved.length===data[type].length){
-   return saved;
-  }
- }catch(e){}
- return data[type].map(()=>0);
+function getVotes(type) {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(storageKey(type, "hasil"))
+    );
+    if (
+      Array.isArray(saved) &&
+      saved.length === data[type].length &&
+      saved.every(n => Number.isInteger(n) && n >= 0)
+    ) {
+      return saved;
+    }
+  } catch (e) {}
+  return data[type].map(() => 0);
 }
 
-function renderOptions(type){
- const target=document.getElementById(type+"Options");
- target.innerHTML="";
- data[type].forEach((name,i)=>{
-  const label=document.createElement("label");
-  label.className="option";
-  const input=document.createElement("input");
-  input.type="radio";
-  input.name=type;
-  input.value=i;
-  label.appendChild(input);
-  label.appendChild(document.createTextNode(name));
-  target.appendChild(label);
- });
-}
+function renderOptions(type) {
+  const target = document.getElementById(type + "Options");
+  target.innerHTML = "";
 
-function vote(type){
- if(localStorage.getItem(key(type)+"_pilih")!==null){
-  alert("Anda sudah memilih pada kategori ini.");
-  return;
- }
- const selected=document.querySelector('input[name="'+type+'"]:checked');
- if(!selected){
-  alert("Silakan pilih salah satu kandidat.");
-  return;
- }
- const index=Number(selected.value);
- if(!confirm("Yakin mengirim pilihan ini?"))return;
- const votes=getVotes(type);
- votes[index]++;
- localStorage.setItem(key(type)+"_hasil",JSON.stringify(votes));
- localStorage.setItem(key(type)+"_pilih",String(index));
- render();
-}
+  data[type].forEach((item, index) => {
+    const label = document.createElement("label");
+    label.className = "option";
 
-function renderResult(type){
- const votes=getVotes(type);
- const total=votes.reduce((a,b)=>a+b,0);
- const target=document.getElementById(
-  type==="nama"?"hasilNama":"hasilKetua"
- );
- target.innerHTML="";
- data[type].forEach((name,i)=>{
-  const percent=total?Math.round(votes[i]/total*100):0;
-  const item=document.createElement("div");
-  item.className="result";
-  const line=document.createElement("div");
-  line.className="row";
-  const label=document.createElement("span");
-  label.textContent=name;
-  const count=document.createElement("strong");
-  count.textContent=votes[i]+" suara ("+percent+"%)";
-  line.append(label,count);
-  const bar=document.createElement("div");
-  bar.className="bar";
-  const fill=document.createElement("div");
-  fill.className="fill";
-  fill.style.width=percent+"%";
-  bar.appendChild(fill);
-  item.append(line,bar);
-  target.appendChild(item);
- });
- const totalLabel=document.createElement("p");
- totalLabel.className="note";
- totalLabel.textContent="Total suara demo: "+total;
- target.appendChild(totalLabel);
-}
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = type;
+    input.value = index;
 
-function render(){
- ["nama","ketua"].forEach(type=>{
-  const chosen=localStorage.getItem(key(type)+"_pilih");
-  const done=chosen!==null;
-  document.getElementById(
-   type==="nama"?"btnNama":"btnKetua"
-  ).disabled=done;
-  const status=document.getElementById(
-   type==="nama"?"statusNama":"statusKetua"
-  );
-  status.textContent=done?"✓ Pilihan demo berhasil disimpan.":"";
-  status.className=done?"status":"";
-  document.querySelectorAll('input[name="'+type+'"]').forEach(input=>{
-   input.disabled=done;
-   input.checked=done && input.value===chosen;
+    const number = document.createElement("span");
+    number.className = "number";
+    number.textContent = "OPTION " +
+      String(index + 1).padStart(2, "0");
+
+    const title = document.createElement("strong");
+    title.textContent = item.nama;
+
+    label.append(input, number, title);
+
+    if (item.filosofi) {
+      const desc = document.createElement("small");
+      desc.textContent = "FILOSOFI — " + item.filosofi;
+      label.appendChild(desc);
+    }
+
+    target.appendChild(label);
   });
-  renderResult(type);
- });
+}
+
+function vote(type) {
+  if (localStorage.getItem(storageKey(type, "pilih")) !== null) {
+    alert("Anda sudah memilih pada kategori ini.");
+    return;
+  }
+
+  const selected = document.querySelector(
+    'input[name="' + type + '"]:checked'
+  );
+
+  if (!selected) {
+    alert("Silakan pilih salah satu pilihan terlebih dahulu.");
+    return;
+  }
+
+  const index = Number(selected.value);
+  const pilihan = data[type][index].nama;
+
+  if (!confirm("Yakin memilih " + pilihan + "?")) {
+    return;
+  }
+
+  const votes = getVotes(type);
+  votes[index]++;
+
+  localStorage.setItem(
+    storageKey(type, "hasil"),
+    JSON.stringify(votes)
+  );
+  localStorage.setItem(
+    storageKey(type, "pilih"),
+    String(index)
+  );
+
+  render();
+  alert("Terima kasih! Pilihan demo berhasil disimpan.");
+}
+
+function renderResult(type) {
+  const votes = getVotes(type);
+  const total = votes.reduce((a, b) => a + b, 0);
+
+  const target = document.getElementById(
+    type === "nama" ? "hasilNama" : "hasilKetua"
+  );
+  target.innerHTML = "";
+
+  data[type].forEach((item, index) => {
+    const percent = total
+      ? (votes[index] / total) * 100
+      : 0;
+
+    const container = document.createElement("div");
+    container.className = "result";
+
+    const line = document.createElement("div");
+    line.className = "result-line";
+
+    const name = document.createElement("span");
+    name.textContent = item.nama;
+
+    const count = document.createElement("strong");
+    count.textContent =
+      votes[index] + " suara (" +
+      percent.toFixed(1) + "%)";
+
+    line.append(name, count);
+
+    const track = document.createElement("div");
+    track.className = "track";
+
+    const fill = document.createElement("div");
+    fill.className = "fill";
+    fill.style.width = percent + "%";
+
+    track.appendChild(fill);
+    container.append(line, track);
+    target.appendChild(container);
+  });
+
+  const summary = document.createElement("p");
+  summary.className = "note";
+  summary.textContent = "Total suara demo: " + total;
+  target.appendChild(summary);
+}
+
+function render() {
+  ["nama", "ketua"].forEach(type => {
+    const chosen = localStorage.getItem(
+      storageKey(type, "pilih")
+    );
+    const done = chosen !== null;
+
+    const button = document.getElementById(
+      type === "nama" ? "btnNama" : "btnKetua"
+    );
+    button.disabled = done;
+
+    const status = document.getElementById(
+      type === "nama" ? "statusNama" : "statusKetua"
+    );
+
+    status.textContent = done
+      ? "✓ Pilihan demo berhasil disimpan."
+      : "";
+
+    document.querySelectorAll(
+      'input[name="' + type + '"]'
+    ).forEach(input => {
+      input.disabled = done;
+      input.checked = done && input.value === chosen;
+    });
+
+    renderResult(type);
+  });
 }
 
 renderOptions("nama");
@@ -194,4 +625,3 @@ render();
 </script>
 </body>
 </html>
-
