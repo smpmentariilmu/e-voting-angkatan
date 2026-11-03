@@ -1,1 +1,197 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E-Voting Angkatan | SMP IT Mentari Ilmu</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f1f5f9;font-family:Arial,sans-serif;color:#172b4d}
+header{background:linear-gradient(135deg,#103b79,#1678bd);color:white;padding:30px 18px;text-align:center}
+header h1{margin:8px 0;font-size:28px}
+header p{margin:5px}
+main{max-width:850px;margin:25px auto;padding:0 15px}
+.card{background:white;border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:0 5px 20px #152b4b12}
+h2{color:#103b79;margin-top:0}
+.option{display:block;border:2px solid #e2e8f0;border-radius:12px;padding:15px;margin:10px 0;cursor:pointer}
+.option:has(input:checked){border-color:#1678bd;background:#eff8ff}
+.option input{margin-right:10px}
+button{background:#1266ad;color:white;border:0;border-radius:10px;padding:13px 22px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
+button:hover{background:#0b477f}
+button:disabled{background:#94a3b8;cursor:not-allowed}
+.note{color:#64748b;font-size:13px;line-height:1.6}
+.result{margin:15px 0}
+.bar{height:13px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin-top:7px}
+.fill{height:100%;background:#1685cc;transition:width .3s}
+.row{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.status{padding:12px;border-radius:10px;background:#e8f6ee;color:#166534;margin-top:12px}
+footer{text-align:center;color:#64748b;font-size:12px;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<div>🎓 SMP IT MENTARI ILMU</div>
+<h1>E-VOTING ANGKATAN</h1>
+<p>Suaramu Menentukan Masa Depan Angkatan</p>
+</header>
+
+<main>
+<section class="card">
+<h2>Selamat Datang!</h2>
+<p>Silakan berpartisipasi dalam pemilihan nama angkatan dan ketua angkatan.</p>
+<p class="note">Setiap browser dapat memberikan satu suara untuk masing-masing kategori dalam demo ini.</p>
+</section>
+
+<section class="card">
+<h2>🏆 Polling Nama Angkatan</h2>
+<p>Pilih satu nama angkatan yang paling sesuai.</p>
+<div id="namaOptions"></div>
+<button id="btnNama" onclick="vote('nama')">Kirim Pilihan Nama Angkatan</button>
+<div id="statusNama"></div>
+</section>
+
+<section class="card">
+<h2>👑 Pemilihan Ketua Angkatan</h2>
+<p>Pilih calon ketua angkatan pilihanmu.</p>
+<div id="ketuaOptions"></div>
+<button id="btnKetua" onclick="vote('ketua')">Kirim Pilihan Ketua Angkatan</button>
+<div id="statusKetua"></div>
+</section>
+
+<section class="card">
+<h2>📊 Hasil Polling Demo</h2>
+<h3>Nama Angkatan</h3>
+<div id="hasilNama"></div>
+<h3>Ketua Angkatan</h3>
+<div id="hasilKetua"></div>
+<p class="note">Hasil ini hanya berdasarkan suara yang tersimpan di browser ini, bukan hasil seluruh murid.</p>
+</section>
+</main>
+
+<footer>© 2026 SMP IT Mentari Ilmu | E-Voting Angkatan</footer>
+
+<script>
+const data = {
+ nama: [
+  "Generasi Cendekia",
+  "Generasi Gemilang",
+  "Generasi Inspirasi",
+  "Generasi Juara"
+ ],
+ ketua: [
+  "Kandidat Ketua 1",
+  "Kandidat Ketua 2",
+  "Kandidat Ketua 3"
+ ]
+};
+
+function key(type){
+ return "demo_evoting_" + type;
+}
+
+function getVotes(type){
+ try{
+  const saved=JSON.parse(localStorage.getItem(key(type)+"_hasil"));
+  if(Array.isArray(saved) && saved.length===data[type].length){
+   return saved;
+  }
+ }catch(e){}
+ return data[type].map(()=>0);
+}
+
+function renderOptions(type){
+ const target=document.getElementById(type+"Options");
+ target.innerHTML="";
+ data[type].forEach((name,i)=>{
+  const label=document.createElement("label");
+  label.className="option";
+  const input=document.createElement("input");
+  input.type="radio";
+  input.name=type;
+  input.value=i;
+  label.appendChild(input);
+  label.appendChild(document.createTextNode(name));
+  target.appendChild(label);
+ });
+}
+
+function vote(type){
+ if(localStorage.getItem(key(type)+"_pilih")!==null){
+  alert("Anda sudah memilih pada kategori ini.");
+  return;
+ }
+ const selected=document.querySelector('input[name="'+type+'"]:checked');
+ if(!selected){
+  alert("Silakan pilih salah satu kandidat.");
+  return;
+ }
+ const index=Number(selected.value);
+ if(!confirm("Yakin mengirim pilihan ini?"))return;
+ const votes=getVotes(type);
+ votes[index]++;
+ localStorage.setItem(key(type)+"_hasil",JSON.stringify(votes));
+ localStorage.setItem(key(type)+"_pilih",String(index));
+ render();
+}
+
+function renderResult(type){
+ const votes=getVotes(type);
+ const total=votes.reduce((a,b)=>a+b,0);
+ const target=document.getElementById(
+  type==="nama"?"hasilNama":"hasilKetua"
+ );
+ target.innerHTML="";
+ data[type].forEach((name,i)=>{
+  const percent=total?Math.round(votes[i]/total*100):0;
+  const item=document.createElement("div");
+  item.className="result";
+  const line=document.createElement("div");
+  line.className="row";
+  const label=document.createElement("span");
+  label.textContent=name;
+  const count=document.createElement("strong");
+  count.textContent=votes[i]+" suara ("+percent+"%)";
+  line.append(label,count);
+  const bar=document.createElement("div");
+  bar.className="bar";
+  const fill=document.createElement("div");
+  fill.className="fill";
+  fill.style.width=percent+"%";
+  bar.appendChild(fill);
+  item.append(line,bar);
+  target.appendChild(item);
+ });
+ const totalLabel=document.createElement("p");
+ totalLabel.className="note";
+ totalLabel.textContent="Total suara demo: "+total;
+ target.appendChild(totalLabel);
+}
+
+function render(){
+ ["nama","ketua"].forEach(type=>{
+  const chosen=localStorage.getItem(key(type)+"_pilih");
+  const done=chosen!==null;
+  document.getElementById(
+   type==="nama"?"btnNama":"btnKetua"
+  ).disabled=done;
+  const status=document.getElementById(
+   type==="nama"?"statusNama":"statusKetua"
+  );
+  status.textContent=done?"✓ Pilihan demo berhasil disimpan.":"";
+  status.className=done?"status":"";
+  document.querySelectorAll('input[name="'+type+'"]').forEach(input=>{
+   input.disabled=done;
+   input.checked=done && input.value===chosen;
+  });
+  renderResult(type);
+ });
+}
+
+renderOptions("nama");
+renderOptions("ketua");
+render();
+</script>
+</body>
+</html>
+
